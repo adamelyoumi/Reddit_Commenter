@@ -1,0 +1,15 @@
+0) Ouvrir PowerShell en tant qu'administrateur, entrer la commande "Set-ExecutionPolicy unrestricted"
+
+1) Ouvrir GoLogin > Menu hamburger en haut à droite > "API" > "Nouveau jeton" > Copier le nouveau jeton > Le coller dans "jeton.txt"
+
+2) Télécharger Python 3.11.4, sélectionner l'option "Ajouter python au PATH"
+
+3)  - Télécharger le contenu de https://drive.google.com/drive/folders/1oKP3gRrBoUshmKKl51oqTUiBwZXIckTC?usp=drive_link
+    - Coller "orbita-browser-118" dans "C:\Users\[Nom utilisateur]\.gologin\browser"
+
+4) Installation
+    - Clic droit sur "install.ps1" > "Exécuter avec PowerShell" (réessayer si ça ne marche pas)
+    - Appuyer sur entrée lorsque le prompt s'affiche
+
+5) Lancer le script
+    - Clic droit sur "run.ps1" > "Exécuter avec PowerShell"
