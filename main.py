@@ -11,7 +11,7 @@ import argparse
 
 parser = argparse.ArgumentParser()
 parser.add_argument('-x', action='store_true')
-args = parser.parse_args(args=[])
+args = parser.parse_args()
 
 if args.x:
     print("Cross posting enabled")
