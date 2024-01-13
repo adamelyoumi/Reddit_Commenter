@@ -26,10 +26,6 @@ with open("jeton.txt", "r") as f:
 
 REDDIT = "https://www.reddit.com"
 
-profiles_test = ... # REDACTED
-ids_test = ... # REDACTED
-
-
 def remove_emojis(text):
     # Define the regular expression for detecting emojis
     emoji_pattern = re.compile("["
@@ -126,8 +122,8 @@ def get_time_until_target(target_hour):
     return time_difference.total_seconds()+5
 
 if __name__ == "__main__":
-    # d = retrieveSheetData()
-    # posts = transformSheetData(d)
+    d = retrieveSheetData()
+    posts = transformSheetData(d)
     profiles = getGologinProfiles()
     ids_ = getBotLogins()
     
@@ -136,21 +132,14 @@ if __name__ == "__main__":
             L = sh.worksheet("Comments to use with subs account").get('C2:C1000')
             L = [l[0]+"\n" for l in L]
             c.writelines(L)
-
-    ##### Test variables #####
-    # profiles = profiles_test
-    # ids_ = ids_test
-    # early = { ... }
-    # late = early.copy()
-    ##### Test variables #####
     
     print("\n\n- profiles:",profiles, end="\n")
     profiles.pop("Reddit Sub 14")
     print("\n\n- ids_:",ids_, end="\n")
-    # print("\n\n- posts:",posts, end="\n")
+    print("\n\n- posts:",posts, end="\n")
     
-    # with open("posts.json", "w") as f:
-    #     f.write(json.dumps(posts))
+    with open("posts.json", "w") as f:
+        f.write(json.dumps(posts))
 
     while True:
         Now = datetime.datetime.now()
@@ -162,7 +151,9 @@ if __name__ == "__main__":
             sleep(60)
             continue
         
-        """timestamp_early = get_time_until_target(early_time) # 7 AM CET = 13:00 GMT+1
+        # For more elaborate waiting
+        """
+        timestamp_early = get_time_until_target(early_time) # 7 AM CET = 13:00 GMT+1
         closer_time = min(timestamp_early, timestamp_late)
         
         print(f"Waiting until {Now + timedelta(seconds=closer_time)}")
@@ -171,7 +162,8 @@ if __name__ == "__main__":
         try:
             sleep(closer_time)
         except KeyboardInterrupt:
-            pass"""
+            pass
+        """
                     
         for bot in profiles.keys():
             # print("Sleeping about 30s")
