@@ -15,6 +15,7 @@ import gologin as g
 from cwp import ChromeWithPrefs
 import argparse
 import re, os
+import datetime
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--botid', type=str)
@@ -167,7 +168,10 @@ try:
             print(f"--> User {u} not found")
             continue
         
-        for submission in submissions:
+        submissions_L = list(submissions)
+        submissions_Ls = reversed(sorted(submissions_L, key=lambda x: datetime.datetime.fromtimestamp(x.created)))
+        
+        for submission in submissions_Ls:
             if submission.subreddit.display_name == sub:
                 try:
                     found = True
