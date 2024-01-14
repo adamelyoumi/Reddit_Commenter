@@ -10,7 +10,8 @@ import random as rd
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
-from selenium.common.exceptions import ElementClickInterceptedException, WebDriverException
+from selenium.common.exceptions import ElementClickInterceptedException, WebDriverException, NoAlertPresentException
+from selenium.webdriver.common.alert import Alert
 import gologin as g
 from cwp import ChromeWithPrefs
 import argparse
@@ -80,6 +81,14 @@ def login(browser, bot = [args.uname, args.pwd]):
 
     browser.find_elements(By.CSS_SELECTOR, ".c-btn.c-btn-primary.c-pull-right")[1].click() # Sign in
 
+def handle_alert(driver):
+    try:
+        driver.switch_to.alert.accept()
+        print("Ignoring alert...")
+    except NoAlertPresentException:
+        pass
+    return
+
 try:
     with open("posts.json", "r") as f2:
         el_s = f2.readlines()[0]
@@ -146,6 +155,8 @@ try:
         sleep(1)
 
     for comment in el[bot]:
+        handle_alert(driver)
+        
         acc, sub, txt = comment
         
         if args.x:
@@ -178,8 +189,10 @@ try:
                     print(f"--> Found post by {acc} in subreddit {sub}. Title: {submission.title[:20]}...")
                     
                     driver.get(REDDIT + submission.permalink)
+                    handle_alert(driver)
+                    
                     sleep(10)
-                    print("count",count_substring(driver.find_element(By.XPATH, '//div[@class="uI_hDmU5GSiudtABRz_37 "]').text, args.uname))
+                    
                     if count_substring(driver.find_element(By.XPATH, '//div[@class="uI_hDmU5GSiudtABRz_37 "]').text, args.uname) > 1:
                         print("--> Already commented !")
                         break
@@ -203,7 +216,7 @@ try:
                     
                     submitButton = driver.find_elements(By.XPATH, '//button[@class="_22S4OsoDdOqiM-hPTeOURa _2iuoyPiKHN3kfOoeIQalDT _10BQ7pjWbeYP63SAPNS8Ts _3uJP0daPEH2plzVEYyTdaH "]')[0]
                     
-                    # submitButton.click()
+                    submitButton.click()
                     
                     print("--> Comment sent !")
                     sleep(3)
@@ -215,9 +228,6 @@ try:
                     
         if not found:
             print("--> Post not found !")
-        
-        print("TEST: breaking")
-        break
         
 except Exception as e:
     print("Error detected")
