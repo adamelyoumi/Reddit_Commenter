@@ -122,26 +122,40 @@ def get_time_until_target(target_hour):
     return time_difference.total_seconds()+5
 
 if __name__ == "__main__":
-    d = retrieveSheetData()
-    posts = transformSheetData(d)
-    profiles = getGologinProfiles()
-    ids_ = getBotLogins()
-    
     if args.x:
         with open("comms.txt", "w", encoding="utf-8") as c:
             L = sh.worksheet("Comments to use with subs account").get('C2:C1000')
             L = [l[0]+"\n" for l in L]
             c.writelines(L)
     
-    print("\n\n- profiles:",profiles, end="\n")
-    profiles.pop("Reddit Sub 14")
-    print("\n\n- ids_:",ids_, end="\n")
-    print("\n\n- posts:",posts, end="\n")
+    p=True
     
-    with open("posts.json", "w") as f:
-        f.write(json.dumps(posts))
-
     while True:
+        
+        d = retrieveSheetData()
+        posts = transformSheetData(d)
+        
+        profiles = getGologinProfiles()
+        ids_ = getBotLogins()
+        
+        # for k in [14]:
+        #     profiles.pop(f"Reddit Sub {k}")
+        
+        # profiles2 = {}
+        # for k in [7]:
+        #     profiles2[f"Reddit Sub {k}"] = profiles[f"Reddit Sub {k}"]
+        # profiles = profiles2
+        
+        with open("posts.json", "w") as f:
+            f.write(json.dumps(posts))
+        
+        if p: # Print only the first time
+            print("\n\n- profiles:",profiles, end="\n")
+            print("\n\n- ids_:",ids_, end="\n")
+            
+            print("\n\n- posts:",posts, end="\n")
+            p=False
+            
         Now = datetime.datetime.now()
         
         if Now.minute <= 60:
