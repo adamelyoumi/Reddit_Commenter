@@ -183,7 +183,7 @@ try:
         submissions_Ls = reversed(sorted(submissions_L, key=lambda x: datetime.datetime.fromtimestamp(x.created)))
         
         for submission in submissions_Ls:
-            if submission.subreddit.display_name == sub:
+            if submission.subreddit.display_name == sub and (datetime.datetime.now() - datetime.datetime.fromtimestamp(submission.created)).days == 0:
                 try:
                     found = True
                     print(f"--> Found post by {acc} in subreddit {sub}. Title: {submission.title[:20]}...")
@@ -221,7 +221,7 @@ try:
                     print("--> Comment sent !")
                     sleep(3)
                     break
-                except (ElementClickInterceptedException, WebDriverException) as e:
+                except (ElementClickInterceptedException, WebDriverException, UnicodeEncodeError) as e:
                     print("Error:", e)
                     print("Continuing on to the next comment...")
                     break
